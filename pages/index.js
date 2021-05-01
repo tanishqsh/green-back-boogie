@@ -182,9 +182,9 @@ export default function Home() {
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400&display=swap" rel="stylesheet"></link>
       </Head>
       <main>
-        <div onClick={() => redirect()} id="github-icon" className="absolute cursor-pointer top-5 left-5">
+        {/* <div onClick={() => redirect()} id="github-icon" className="absolute cursor-pointer top-5 left-5">
           <img className="h-8 filter invert" src="http://pngimg.com/uploads/github/github_PNG40.png" />
-        </div>
+        </div> */}
         <div
           className={`flex flex-col items-center transition-all p-5 duration-500 justify-center min-h-screen bg-gray-800 space-y-14 ${
             nominationList.length == 5 ? 'bg-green-600' : ''

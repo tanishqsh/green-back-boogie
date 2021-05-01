@@ -16,7 +16,15 @@ Thus, owing to the hard-limit of 5 nominations, I created a set of 5 searchable,
 
 ## Features
 
--[x] In-place fixing and searching for new titles -[x] Once you have selected any particular title, it doens't show in the results anymore. This is crucial to reduce user's mental fatigue of search-and-disappointment. Better than showing user that it has been already selected. (Redundant in our case as we were anyway showing in-place nominations) -[x] All posters are retrieved along with titles and years. -[x] A placeholder image has been added for titles that do not have posters. Search for 'TANIS' and you'll see some titles using our custom placeholder image.
+-[x] In-place fixing and searching for new titles
+
+- [x] Once you have selected any particular title, it doens't show in the results anymore. This is crucial to reduce user's mental fatigue of search-and-disappointment. Better than showing user that it has been already selected. (Redundant in our case as we were anyway showing in-place nominations)
+
+- [x] All posters are retrieved along with titles and years.
+
+- [x] A placeholder image has been added for titles that do not have posters. Search for 'TANIS' and you'll see some titles using our custom placeholder image.
+
+- [x] There are sleek visual clues at all places that places that guide user with respect to feedback. For example: The search bar turns red when there is potential error. The search bar turns green where the input is correct and valid.
 
 ## Live
 

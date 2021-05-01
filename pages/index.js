@@ -42,7 +42,6 @@ export default function Home() {
 
   useEffect(() => {
     if (searchTerm.length < 3) {
-      console.log('Please enter more characters');
       updateError(true, 'Please enter atleast 3 characters to refine search.');
       return;
     }
@@ -51,7 +50,6 @@ export default function Home() {
     axios.get(baseURL + apiKey + '&s=' + searchTerm.trim() + '&type=' + type).then((res) => {
       if (res.data.Response) {
         // To display only top-5 search results in movies
-        console.log('Date: ', res.data);
         if (res.data.Search) {
           if (res.data.Search.length > 5) {
             setMovies(res.data.Search.slice(0, 5));

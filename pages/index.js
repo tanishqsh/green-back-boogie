@@ -76,6 +76,9 @@ export default function Home() {
     setErrorMessage(errorMessage);
   }
 
+  /**
+   * Adds a remove to the nomination list
+   */
   function movieNominated(title, poster, year) {
     let nomination = {
       title,
@@ -93,14 +96,23 @@ export default function Home() {
     setNominationList(newList);
   }
 
+  /**
+   * Removes movies from movies array if they have been already added to the nomination list
+   */
+
+  function removeAlreadyNominated(newMovies) {
+    let tempArray = newMovies;
+    for (const key in nominationList) {
+      const title = nominationList[key].title;
+      tempArray = tempArray.filter((item) => item.Title != title);
+    }
+    console.log('Sending The Temp Array:', tempArray);
+    return tempArray;
+  }
+
   useEffect(() => {
     console.log('Nomination List: ', nominationList);
   }, [nominationList]);
-
-  /**
-   * This function removes the listings which have been already nominated
-   */
-  function removeDuplicate(newArray) {}
 
   /**
    * This function runs everytime the search term is changed. It fetches the movies
@@ -117,12 +129,13 @@ export default function Home() {
       if (res.data.Response) {
         // To display only top-5 search results in movies
         if (res.data.Search) {
-          if (res.data.Search.length > 5) {
-            setMovies(res.data.Search.slice(0, 5 - nominationList.length));
+          const filteredMovies = removeAlreadyNominated(res.data.Search);
+          if (filteredMovies.length > 5) {
+            setMovies(filteredMovies.slice(0, 5 - nominationList.length));
             return;
           }
           // if the results are already less than 5, set the entire library to movie state
-          setMovies(res.data.Search);
+          setMovies(filteredMovies);
         } else {
           updateError(true, 'No Movies Found!');
         }

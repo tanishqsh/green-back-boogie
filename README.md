@@ -6,7 +6,7 @@
 
 My primary thought in this implementation was to make an interface that doesn't make user think too much. It should be intuitive, easy, and should perform functions with least number of clicks.
 
-Thus, owing to the hard-limit of 5 nominations, I created a set of 5 searchable, able-to-fix windows to allow users to pick their choice of 5 movies.
+Thus, owing to the hard-limit of 5 nominations, I created a set of 5 searchable, able-to-fix windows to allow users to pick their choice of 5 movies. Respecting the Hick's law!
 
 ## Difficulties faced
 

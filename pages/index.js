@@ -48,7 +48,7 @@ export default function Home() {
     }
     updateError(false, '');
     // axios method too fetch the data from the API
-    axios.get(baseURL + apiKey + '&s=' + searchTerm + '&type=' + type).then((res) => {
+    axios.get(baseURL + apiKey + '&s=' + searchTerm.trim() + '&type=' + type).then((res) => {
       if (res.data.Response) {
         // To display only top-5 search results in movies
         console.log('Date: ', res.data);

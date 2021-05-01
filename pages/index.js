@@ -77,7 +77,7 @@ export default function Home() {
   // movies state to contain the movie array
   const [movies, setMovies] = useState();
   const [searchTerm, setSearchTerm] = useState('car');
-  const baseURL = 'http://www.omdbapi.com/?apikey=';
+  const baseURL = 'https://www.omdbapi.com/?apikey=';
   const apiKey = process.env.OMDB_API;
   const type = 'movie';
   const [error, setError] = useState(false);

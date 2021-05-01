@@ -18,7 +18,9 @@ const MovieCard = ({ title, poster, year, movieNominated }) => (
     key={title}
     className="mx-auto my-5 cursor-pointer max-w-200 md:my-0"
   >
-    <Image layout="intrinsic" height="300px" width="200px" src={poster == 'N/A' ? '/placeholder.jpg' : poster} />
+    <div className="transition-all duration-300 hover:bg-green-300 hover:shadow-inner">
+      <Image layout="intrinsic" height="300px" width="200px" src={poster == 'N/A' ? '/placeholder.jpg' : poster} />
+    </div>
     <div className="mt-3 space-y-2 text-center">
       <h1 className="w-full text-xs text-transparent bg-gradient-to-br from-green-200 to-green-600 bg-clip-text font-inter"> {title} </h1>
       <p className="text-xs text-white font-inter"> {year} </p>
@@ -70,7 +72,7 @@ const ErrorMessage = ({ message }) => <p className="px-6 py-2 text-gray-600 bg-g
  */
 
 const Banner = () => (
-  <div className="text-3xl font-medium text-white font-inter">Congratulations! You have successfully selected your nominations. 🏆</div>
+  <div className="text-3xl font-medium text-white font-inter">Congratulations! You have successfully selected your nominations 🏆</div>
 );
 
 export default function Home() {
@@ -162,6 +164,10 @@ export default function Home() {
     });
   }, [searchTerm, nominationList]);
 
+  function redirect() {
+    window.location = 'https://github.com/tanishqsh/green-back-boogie';
+  }
+
   /**
    * Get the nomination list from localStorage if any
    */
@@ -176,9 +182,12 @@ export default function Home() {
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400&display=swap" rel="stylesheet"></link>
       </Head>
       <main>
+        <div onClick={() => redirect()} id="github-icon" className="absolute cursor-pointer top-5 left-5">
+          <img className="h-8 filter invert" src="http://pngimg.com/uploads/github/github_PNG40.png" />
+        </div>
         <div
           className={`flex flex-col items-center transition-all p-5 duration-500 justify-center min-h-screen bg-gray-800 space-y-14 ${
-            nominationList.length == 5 ? 'bg-green-400' : ''
+            nominationList.length == 5 ? 'bg-green-600' : ''
           }`}
         >
           <div className="space-y-2 text-center">

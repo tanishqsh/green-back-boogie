@@ -8,7 +8,7 @@ My primary thought in this implementation was to make an interface that doesn't 
 
 Thus, owing to the hard-limit of 5 nominations, I created a set of 5 searchable, able-to-fix windows to allow users to pick their choice of 5 movies.
 
-## Difficulties faces
+## Difficulties faced
 
 1. Slow server response – When it comes to images, it is always tricky to work with the render and re-render process of react. I used the latest technology stack by Next to ensure that all images are optimised, are curated with lazy-loading to reduce FCP and LCP.
 

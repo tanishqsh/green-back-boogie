@@ -10,12 +10,38 @@ import { useEffect, useState } from 'react';
  * @param {*} year - pass the movie year
  * @returns a component of a movie card
  */
-const MovieCard = ({ title, poster, year }) => (
+const MovieCard = ({ title, poster, year, movieNominated }) => (
   <div key={title} className="cursor-pointer max-w-200">
     <Image layout="intrinsic" height="300px" width="200px" src={poster == 'N/A' ? '/placeholder.jpg' : poster} />
     <div className="mt-3 space-y-2 text-center">
       <h1 className="w-full text-xs text-transparent bg-gradient-to-br from-green-200 to-green-600 bg-clip-text font-inter"> {title} </h1>
       <p className="text-xs text-white font-inter"> {year} </p>
+      <button
+        onClick={() => movieNominated(title, poster, year)}
+        className="px-3 py-1 my-2 text-xs text-white rounded-md outline-none bg-gradient-to-br from-green-200 to-green-600 font-inter focus:outline-none"
+      >
+        {' '}
+        Nominate{' '}
+      </button>
+    </div>
+  </div>
+);
+
+const NominatedCard = ({ title, poster, year, removeNomination }) => (
+  <div key={title} className="p-6 border-2 border-green-500 cursor-pointer max-w-200">
+    <div className="shadow-lg">
+      <Image height="300px" width="200px" src={poster == 'N/A' ? '/placeholder.jpg' : poster} />
+    </div>
+    <div className="mt-3 space-y-2 text-center">
+      <h1 className="w-full text-xs text-white font-inter"> {title} </h1>
+      <p className="text-xs text-white font-inter"> {year} </p>
+      <button
+        onClick={() => removeNomination(title)}
+        className="px-3 py-1 my-2 text-xs text-white rounded-md outline-none bg-gradient-to-br from-red-200 to-red-600 font-inter focus:outline-none"
+      >
+        {' '}
+        Remove Nomination{' '}
+      </button>
     </div>
   </div>
 );
@@ -35,11 +61,51 @@ export default function Home() {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
+  /**
+   * Nomination list
+   */
+  const [nominationList, setNominationList] = useState([]);
+
+  /**
+   * This function updates the error to be displayed when the movies do not load
+   * @param {h} error – Boolean True / False
+   * @param {*} errorMessage  - Custom message to be displayed
+   */
   function updateError(error, errorMessage) {
     setError(error);
     setErrorMessage(errorMessage);
   }
 
+  function movieNominated(title, poster, year) {
+    let nomination = {
+      title,
+      poster,
+      year,
+    };
+    setNominationList([...nominationList, nomination]);
+  }
+
+  /**
+   * Searches the nomination list for the removed title and returns a filtered array
+   */
+  function removeNomination(title) {
+    var newList = nominationList.filter((nomination) => nomination.title != title);
+    setNominationList(newList);
+  }
+
+  useEffect(() => {
+    console.log('Nomination List: ', nominationList);
+  }, [nominationList]);
+
+  /**
+   * This function removes the listings which have been already nominated
+   */
+  function removeDuplicate(newArray) {}
+
+  /**
+   * This function runs everytime the search term is changed. It fetches the movies
+   * based on the new search term and displays them in the grid after mandatory checks.
+   */
   useEffect(() => {
     if (searchTerm.length < 3) {
       updateError(true, 'Please enter atleast 3 characters to refine search.');
@@ -52,7 +118,7 @@ export default function Home() {
         // To display only top-5 search results in movies
         if (res.data.Search) {
           if (res.data.Search.length > 5) {
-            setMovies(res.data.Search.slice(0, 5));
+            setMovies(res.data.Search.slice(0, 5 - nominationList.length));
             return;
           }
           // if the results are already less than 5, set the entire library to movie state
@@ -62,7 +128,7 @@ export default function Home() {
         }
       }
     });
-  }, [searchTerm]);
+  }, [searchTerm, nominationList]);
 
   return (
     <div>
@@ -86,20 +152,30 @@ export default function Home() {
               <ErrorMessage message={errorMessage} />
             </div>
           ) : (
-            <div id="movie-container" className="flex flex-wrap space-x-4">
-              {movies && movies.map((movie) => <MovieCard title={movie.Title} poster={movie.Poster} year={movie.Year} />)}
-            </div>
+            <>
+              <div id="movie-container" className="flex space-x-4">
+                {nominationList &&
+                  nominationList.map((nomination) => (
+                    <NominatedCard title={nomination.title} poster={nomination.poster} year={nomination.year} removeNomination={removeNomination} />
+                  ))}
+                {movies &&
+                  movies.map((movie) => <MovieCard movieNominated={movieNominated} title={movie.Title} poster={movie.Poster} year={movie.Year} />)}
+              </div>
+            </>
           )}
-          <input
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className={`w-1/3 px-2 py-2 text-sm text-white transition-all duration-150 bg-black rounded-sm outline-none ring-offset-2 ring-white ring-offset-black ring-1 ${
-              error ? 'focus:ring-red-400' : 'focus:ring-green-400'
-            } focus:outline-none focus:ring-1`}
-            name="search"
-            placeholder="Search Movies"
-            type="text"
-          />
+          <div className="space-y-2">
+            <input
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className={`w-full px-2 py-2 text-sm text-white transition-all duration-150 bg-black rounded-sm outline-none ring-offset-2 ring-white ring-offset-black ring-1 ${
+                error ? 'focus:ring-red-400' : 'focus:ring-green-400'
+              } focus:outline-none focus:ring-1`}
+              name="search"
+              placeholder="Search Movies"
+              type="text"
+            />
+            <p className="py-1 text-xs tracking-wide text-gray-500 capitalize"> Search Your Favourite Movies Here </p>
+          </div>
         </div>
       </main>
     </div>
